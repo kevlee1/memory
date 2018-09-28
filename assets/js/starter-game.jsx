@@ -43,7 +43,7 @@ class Starter extends React.Component {
   // try button to reload page
   resetGame() {
     let stateReset = _.assign({}, this.state, {
-      cells: this.randomBoard(["A", "B", "C", "D", "E", "F", "G"]),
+      cells: this.randomBoard(["A", "B", "C", "D", "E", "F", "G", "H"]),
       eliminated: [],
       choice1: null,
       choice2: null,
@@ -94,6 +94,7 @@ class Starter extends React.Component {
       }
       board[coord['y']][coord['x']] = character;
     }
+    board = _.shuffle(board);
     return board;
   }
 
@@ -163,6 +164,9 @@ class Starter extends React.Component {
   
   
   function GameScreen(props) {
+    let onStart = () => {
+      props.root.resetGame();
+    }
     let onCellClicked = (coord) => {
       props.root.choose(coord);
     }
@@ -171,6 +175,10 @@ class Starter extends React.Component {
               <div className="column"><h1>Memory Game</h1></div>
             </div>
             <div className="row">
+              <p> Press Start First! </p>
+            </div>
+            <div className="row">
+              <div className="column"><button onClick={onStart}>Start</button></div>
               <div className="column"><form action="http://memory1.leekev.com"><button type="submit" value="Reset">Restart</button></form></div>
               <div className="column"><p>Score: {props.root.state.score}</p></div>
             </div>
@@ -190,7 +198,7 @@ class Starter extends React.Component {
                 <div className="column"><p>Score: {props.root.state.score}</p></div>
               </div>
               <div className="row">
-                 <div className="column"><form action="http://memory1.leekev.com"><button type="submit" value="Reset">Reset</button></form></div>
+                 <div className="column"><form action="http://memory1.leekev.com"><button type="submit" value="Reset">Restart</button></form></div>
               </div>
             </div>;
   }
