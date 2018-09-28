@@ -59,7 +59,7 @@ class Starter extends React.Component {
       let row = [];
       for (j = 0; j < 4; j++) {
         // populate a row with 4 letters
-        row.push(1); // placeholder
+        row.push(0);
       }
       // then push the row onto the board
       board.push(row);
@@ -152,9 +152,6 @@ class Starter extends React.Component {
       case "win":
         return <WinScreen root={this}/>;
         break;
-      case "menu":
-        return <MenuScreen root={this}/>;
-        break;
       default:
         throw "not a valid game state";
     }
@@ -163,7 +160,7 @@ class Starter extends React.Component {
   
   
   function GameScreen(props) {
-    let onRestartButtonPressed = () => {
+    let onRestartPressed = () => {
       props.root.resetBoard();
     }
     let onCellClicked = (coord) => {
@@ -174,7 +171,7 @@ class Starter extends React.Component {
               <div className="column"><h1>Memory Game</h1></div>
             </div>
            <div className="row">
-              <div className="column"><button onClick={onRestartButtonPressed}>Restart</button></div>`
+              <div className="column"><button onClick={(e) => props.root.resetBoard()}>Restart</button></div>`
               <div className="column"><p>Score: {props.root.state.score}</p></div>
             </div>
             <Board cells={props.root.state.cells}
@@ -185,7 +182,7 @@ class Starter extends React.Component {
   }
 
   function WinScreen(props) {
-    let onRestartButtonPressed = () => {
+    let onRestartPressed = () => {
       props.root.resetBoard();
       props.root.switchGame();
     }
@@ -197,7 +194,7 @@ class Starter extends React.Component {
                 <div className="column"><p>Score: {props.root.state.score}</p></div>
               </div>
               <div className="row">
-                 <div className="column"><button onClick={onRestartButtonPressed}>Reset</button></div>
+                 <div className="column"><button onClick={(e) => props.root.resetBoard()}>Reset</button></div>
               </div>
             </div>;
   }
