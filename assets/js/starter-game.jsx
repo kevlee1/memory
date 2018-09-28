@@ -29,15 +29,29 @@ class Starter extends React.Component {
 
   // switches gamestate to game
   switchGame() {
-    this.setState(_.assign(this.state, {gameState: "game"}));
+    let state1 = _.assign({}, this.state, {gameState: "game"});
+    this.setState(state1);
   }
 
   // switches gamestate to win screen
   switchWin() {
-    this.setState(_.assign(this.state, {gameState: "win"}));
+    let stateWin = _.assign({}, this.state, {gameState:"win"});
+    this.setState(stateWin);
   }
 
-  
+  // reset the game - if this doesn't work
+  // try button to reload page
+  resetGame() {
+    let stateReset = _.assign({}, this.state, {
+      cells: this.randomBoard(["A", "B", "C", "D", "E", "F", "G"]),
+      eliminated: [],
+      choice1: null,
+      choice2: null,
+      score: 0,
+      gameState: "game"
+    });
+    this.setState(stateReset);
+  }
 
   // creates a random 2D array of cells
   randomBoard(chars) {
@@ -83,30 +97,19 @@ class Starter extends React.Component {
     return board;
   }
 
-// resets the board
-  resetBoard() {
-    this.setState(_.assign(this.state, {
-      cells: this.randomBoard(["A", "B", "C", "D", "E", "F", "G", "H"]),
-      eliminated: [],
-      guess1: null,
-      guess2: null,
-      score: 0,
-    }));
-  }
-
   // logic for choosing cells
   choose(coord) {
-    if (_.isEqual(this.state.guess1, coord) || _.isEqual(this.state.guess2, coord) || _.some(this.state.eliminated, coord)) {
+    if (_.isEqual(this.state.choice1, coord) || _.isEqual(this.state.choice2, coord) || _.some(this.state.eliminated, coord)) {
       // don't do anything
     }
 
     else {
-      if (this.state.guess1) {
-        if (this.state.cells[coord.y][coord.x] == this.state.cells[this.state.guess1.y][this.state.guess1.x]) {
-          let newEliminated = _.concat(this.state.eliminated, [this.state.guess1, coord]);
+      if (this.state.choice1) {
+        if (this.state.cells[coord.y][coord.x] == this.state.cells[this.state.choice1.y][this.state.choice1.x]) {
+          let newEliminated = _.concat(this.state.eliminated, [this.state.choice1, coord]);
           this.setState(_.assign(this.state, {
             eliminated: newEliminated,
-            guess1: null,
+            choice1: null,
             score: this.state.score + 1
           }));
         }
@@ -115,19 +118,19 @@ class Starter extends React.Component {
           // arrow function acts like lambda
           window.setTimeout(() => {
             this.setState(_.assign(this.state, {
-              guess1: null,
-              guess2: null
+              choice1: null,
+              choice2: null
             }));
           }, 1000);
           this.setState(_.assign(this.state, {
-            guess2: coord,
+            choice2: coord,
             score: this.state.score + 1
           }));
         }
       }
       else {
         this.setState(_.assign(this.state, {
-          guess1: coord,
+          choice1: coord,
           score: this.state.score + 1,
         }));
       }
@@ -160,9 +163,6 @@ class Starter extends React.Component {
   
   
   function GameScreen(props) {
-    let onRestartPressed = () => {
-      props.root.resetBoard();
-    }
     let onCellClicked = (coord) => {
       props.root.choose(coord);
     }
@@ -170,22 +170,18 @@ class Starter extends React.Component {
             <div className="row">
               <div className="column"><h1>Memory Game</h1></div>
             </div>
-           <div className="row">
-              <div className="column"><button onClick={(e) => props.root.resetBoard()}>Restart</button></div>`
+            <div className="row">
+              <div className="column"><form action="http://memory1.leekev.com"><button type="submit" value="Reset">Restart</button></form></div>
               <div className="column"><p>Score: {props.root.state.score}</p></div>
             </div>
             <Board cells={props.root.state.cells}
-                   shown={props.root.state.eliminated.concat([props.root.state.guess1,
-                                                               props.root.state.guess2])}
+                   shown={props.root.state.eliminated.concat([props.root.state.choice1,
+                                                               props.root.state.choice2])}
                    onGuess={onCellClicked} />
-          </div>;
+           </div>;
   }
 
   function WinScreen(props) {
-    let onRestartPressed = () => {
-      props.root.resetBoard();
-      props.root.switchGame();
-    }
     return <div>
               <div classname="row">
                 <div className="column"><h1>YOU WON</h1></div>
@@ -194,7 +190,7 @@ class Starter extends React.Component {
                 <div className="column"><p>Score: {props.root.state.score}</p></div>
               </div>
               <div className="row">
-                 <div className="column"><button onClick={(e) => props.root.resetBoard()}>Reset</button></div>
+                 <div className="column"><form action="http://memory1.leekev.com"><button type="submit" value="Reset">Reset</button></form></div>
               </div>
             </div>;
   }
