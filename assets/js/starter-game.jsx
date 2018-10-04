@@ -209,13 +209,13 @@ class Starter extends React.Component {
     for (i = 0; i < 4; i++) {
       let columns = [];
       for (j = 0; j < 4; j++) {
-        let card = <div key = {j.toString()} className="column">
-                      <Card text = {props.cells[i][j]}
+        let cell = <div key = {j.toString()} className="column">
+                      <Cell text = {props.cells[i][j]}
                             hidden = {!_.some(props.shown, {x: j, y: i})}
                             onGuess = {props.onGuess}
                             coord = {{x: j, y: i}} />
                     </div>;
-        columns.push(card);
+        columns.push(cell);
       }
       let row = <div key={i.toString()} className="row">{columns}</div>;
       board.push(row);
@@ -223,12 +223,12 @@ class Starter extends React.Component {
     return board;
   }
   
-  function Card(props) {
+  function Cell(props) {
     if (props.hidden) {
-      return <button className="card hidden-card" onClick={(e) => props.onGuess(props.coord)}>?</button>;
+      return <button className="cell hidden-cell" onClick={(e) => props.onGuess(props.coord)}>?</button>;
     }
     else {
-      return <div className="card shown-card">{props.text}</div>;
+      return <div className="cell shown-cell">{props.text}</div>;
     }
 }
 
