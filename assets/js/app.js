@@ -27,7 +27,9 @@ function start() {
   }
   if (document.getElementById('index-page')) {
     $('#game-button').click(() => {
-
+      window.gameName = $('#game-input').val()
+    });
+  }
 }
 
 $(start);
