@@ -2,7 +2,7 @@ defmodule Memory.Game do
   def new(name) do
     %{
       board: ["?","?","?","?","?","?","?","?","?","?","?","?","?","?","?","?"],
-      actual: Enum.shuffle(["A", "B", "C", "D", "E", "F", "G", "H"]),
+      actual: Enum.shuffle(["A", "B", "C", "D", "E", "F", "G", "H", "A", "B", "C", "D", "E", "F", "G", "H"]),
       isEnabled: [true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true],
       score: 0,
       noClick: 0,
