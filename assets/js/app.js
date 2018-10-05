@@ -20,7 +20,7 @@ import socket from "./socket";
 import memory_init from "./memory";
 
 function form_init() {
-  $('#game-button').click() => {
+  $('#game-button').click(() => {
     let gameName = $('#game-input').val();
     console.log("Joining game WOO ");
     window.location.href = "/game/" + gameName;
