@@ -19,6 +19,11 @@ import $ from "jquery";
 import socket from "./socket";
 import memory_init from "./memory";
 
+function form_init() {
+
+
+
+
 function start() {
   let root = document.getElementById('root');
   if (root) {
@@ -26,9 +31,7 @@ function start() {
     memory_init(root, channel, window.gameName);
   }
   if (document.getElementById('index-page')) {
-    $('#game-button').click(() => {
-      window.gameName = $('#game-input').val()
-    });
+    form_init();
   }
 }
 
