@@ -23,8 +23,11 @@ function start() {
   let root = document.getElementById('root');
   if (root) {
     let channel = socket.channel("games:" + window.gameName, {});
-    memory_init(root, channel);
+    memory_init(root, channel, window.gameName);
   }
+  if (document.getElementById('index-page')) {
+    $('#game-button').click(() => {
+
 }
 
 $(start);
