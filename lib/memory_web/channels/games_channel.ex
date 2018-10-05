@@ -5,7 +5,7 @@ defmodule MemoryWeb.GamesChannel do
 
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
-      game = Game.new(name)
+      game = Memory.BackupAgent.get(name) || Game.new(name)
       socket = socket
                |> assign(:game, game)
                |> assign(:name, name)
