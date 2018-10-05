@@ -6,7 +6,7 @@ export default function memory_init(root, channel) {
   ReactDOM.render(<Memory channel={channel}/>, root);
 }
 
-class Channel extends React.Component {
+class Memory extends React.Component {
   constructor(props) {
     super(props);
     // initiaze state 
